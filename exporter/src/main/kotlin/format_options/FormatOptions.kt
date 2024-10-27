@@ -2,7 +2,7 @@ package src.main.kotlin.format_options
 
 import java.awt.Color
 
-data class ColumnFormatOptions(
+data class FormatOptions(
     val isBold: Boolean = false,
     val isItalic: Boolean = false,
     val isUnderline: Boolean = false,
