@@ -1,6 +1,6 @@
-package src.main.kotlin.column
+package src.main.kotlin.file.column
 
-import src.main.kotlin.format_options.CellFormatOptions
+import src.main.kotlin.file.format_options.CellFormatOptions
 
 class FormatStringColumn(
     header: String = "",

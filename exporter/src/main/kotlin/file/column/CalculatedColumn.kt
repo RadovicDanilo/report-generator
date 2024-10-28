@@ -1,4 +1,4 @@
-package src.main.kotlin.column
+package src.main.kotlin.file.column
 
 enum class Calculation {
     ADD, SUB, PROD, DIV
