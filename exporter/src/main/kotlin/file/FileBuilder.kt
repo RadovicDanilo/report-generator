@@ -20,6 +20,16 @@ class FileBuilder {
     }
 
     fun setColumns(content: Array<Array<Any>>) {
+        columns = mutableListOf()
+        addColumns(content)
+    }
+
+    fun setColumns(headers: Array<String>, content: Array<Array<Any>>) {
+        columns = mutableListOf()
+        addColumns(headers, content)
+    }
+
+    fun addColumns(content: Array<Array<Any>>) {
         for (column in content) {
             if (column.isEmpty()) continue
             when (column[0]) {
@@ -30,7 +40,7 @@ class FileBuilder {
         }
     }
 
-    fun setColumns(headers: Array<String>, content: Array<Array<Any>>) {
+    fun addColumns(headers: Array<String>, content: Array<Array<Any>>) {
         require(headers.size == content.size) { "Headers and content arrays must have the same length" }
 
         for (i in headers.indices) {
@@ -63,7 +73,6 @@ class FileBuilder {
         columns.add(NumberColumn(header, numbers as Array<Double>) as Column<Any>)
     }
 
-
     fun includeRowNumbers(includeRowNumbers: Boolean) {
         this.includeRowNumbers = includeRowNumbers
     }
@@ -78,5 +87,15 @@ class FileBuilder {
 
     fun setSummaryEntries(entries: Map<String, Any>) {
         this.summary = entries
+    }
+
+    //TODO add more requirements if needed
+    fun build(fileName: String): File {
+        return File(filename, title, columns, includeRowNumbers, summary)
+    }
+
+    fun build(): File {
+        require(::filename.isInitialized) { "File name not set" }
+        return File(filename, title, columns, includeRowNumbers, summary)
     }
 }
