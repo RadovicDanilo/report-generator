@@ -1,4 +1,4 @@
-package src.main.kotlin.format_options
+package src.main.kotlin.file.format_options
 
 import java.awt.Color
 
