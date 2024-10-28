@@ -1,12 +1,13 @@
 package src.main.kotlin.file
 
-import src.main.kotlin.column.Column
-import src.main.kotlin.format_options.CellFormatOptions
-import src.main.kotlin.format_options.TableFormatOptions
-import src.main.kotlin.format_options.TitleFormatOptions
+import src.main.kotlin.file.column.Column
+import src.main.kotlin.file.format_options.CellFormatOptions
+import src.main.kotlin.file.format_options.TableFormatOptions
+import src.main.kotlin.file.format_options.TitleFormatOptions
 import java.util.Collections
 
 class FormatFile(
+    fileName: String,
     title: String = "",
     val titleFormatOptions: TitleFormatOptions = TitleFormatOptions(),
     val tableFormatOptions: TableFormatOptions = TableFormatOptions(),
@@ -16,4 +17,4 @@ class FormatFile(
     val rowNumberFormat: CellFormatOptions = CellFormatOptions(),
     summary: Map<String, Any> = Collections.emptyMap(),
     val summaryFormatOptions: CellFormatOptions = CellFormatOptions(),
-) : File(title, columns, includeRowNumbers, summary)
+) : File(fileName, title, columns, includeRowNumbers, summary)

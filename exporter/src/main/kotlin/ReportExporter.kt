@@ -1,9 +1,9 @@
 package src.main.kotlin
 
-abstract class ReportExporter {
-    abstract val exporterType: String
-    abstract val filename: String
-    abstract fun save(data: List<List<String>>)
-    abstract fun save(data: List<List<String>>, header: List<String>)
+import src.main.kotlin.file.FileBuilder
 
+abstract class ReportExporter(
+    val exporterType: String,
+) {
+    abstract fun run(fileBuilder: FileBuilder)
 }
