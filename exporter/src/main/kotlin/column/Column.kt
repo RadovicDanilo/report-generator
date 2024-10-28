@@ -1,6 +1,6 @@
 package src.main.kotlin.column
 
-import src.main.kotlin.format_options.FormatOptions
+import src.main.kotlin.format_options.CellFormatOptions
 
 abstract class Column<T : Any>(val header: String = "", val content: Array<T>)
 
@@ -94,11 +94,11 @@ open class StringColumn(header: String = "", content: Array<String>) : Column<St
 class FormatNumberColumn(
     header: String = "",
     content: Array<Double>,
-    val columnFormatOptions: FormatOptions
+    val columnFormatOptions: CellFormatOptions
 ) : NumberColumn(header, content)
 
 class FormatStringColumn(
     header: String = "",
     content: Array<String>,
-    val columnFormatOptions: FormatOptions
+    val columnFormatOptions: CellFormatOptions
 ) : StringColumn(header, content)

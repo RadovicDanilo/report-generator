@@ -2,11 +2,11 @@ package src.main.kotlin.format_options
 
 import java.awt.Color
 
-data class FormatOptions(
+data class TitleFormatOptions(
     val isBold: Boolean = false,
     val isItalic: Boolean = false,
-    val isUnderline: Boolean = false,
+    val isUnderlined: Boolean = false,
+    val fontSize: Int = 36,
     val alignment: Alignment = Alignment.CENTER,
-    val backgroundColor: Color = Color.WHITE,
-    val textColor: Color = Color.BLACK
+    val color: Color = Color.BLACK
 )

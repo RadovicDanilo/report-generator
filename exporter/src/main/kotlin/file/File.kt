@@ -1,7 +1,7 @@
 package src.main.kotlin.file
 
 import src.main.kotlin.column.Column
-import src.main.kotlin.format_options.FormatOptions
+import src.main.kotlin.format_options.CellFormatOptions
 import java.util.Collections.emptyMap
 
 open class File(
@@ -13,9 +13,9 @@ open class File(
 
 class FormatFile(
     title: String = "",
-    val headerFormatOptions: FormatOptions = FormatOptions(),
+    val headerFormatOptions: CellFormatOptions = CellFormatOptions(),
     columns: List<Column<Any>>,
     includeRowNumbers: Boolean = false,
-    val rowNumberFormat: FormatOptions = FormatOptions(),
+    val rowNumberFormat: CellFormatOptions = CellFormatOptions(),
     summary: Map<String, Any> = emptyMap()
 ) : File(title, columns, includeRowNumbers, summary)
