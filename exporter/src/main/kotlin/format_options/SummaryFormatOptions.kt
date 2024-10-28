@@ -2,14 +2,14 @@ package src.main.kotlin.format_options
 
 import java.awt.Color
 
-class SummaryFormatOptions(
-    keyColor: Color = Color.BLACK,
-    isKeyBold: Boolean = false,
-    isKeyItalic: Boolean = false,
-    isKeyUnderlined: Boolean = false,
-    valueColor: Color = Color.BLACK,
-    isValueBold: Boolean = false,
-    isValueItalic: Boolean = false,
-    isValueUnderlined: Boolean = false,
-    roundDecimals: Int = 2
+data class SummaryFormatOptions(
+    val keyColor: Color = Color.BLACK,
+    val isKeyBold: Boolean = false,
+    val isKeyItalic: Boolean = false,
+    val isKeyUnderlined: Boolean = false,
+    val valueColor: Color = Color.BLACK,
+    val isValueBold: Boolean = false,
+    val isValueItalic: Boolean = false,
+    val isValueUnderlined: Boolean = false,
+    val roundDecimals: Int = 2
 )
