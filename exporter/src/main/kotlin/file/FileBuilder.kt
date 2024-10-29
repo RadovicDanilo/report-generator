@@ -4,19 +4,30 @@ import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.column.StringColumn
 
-class FileBuilder {
-    lateinit var filename: String
+class FileBuilder(
+    private var filename: String
+) {
     var title: String = ""
     var columns: MutableList<Column<Any>> = mutableListOf()
     var includeRowNumbers: Boolean = false
-    var summary: Map<String, Any> = emptyMap()
+    var summary: MutableMap<String, Any> = mutableMapOf()
+
+    fun validateFilename(filename: String): Boolean {
+        val windowsFilenameRegex = Regex("^[a-zA-Z0-9_-]+$")
+        return windowsFilenameRegex.matches(filename) && !filename.endsWith(" ") && !filename.endsWith(".")
+    }
 
     fun setFileName(filename: String) {
+        require(validateFilename(filename)) { "Invalid filename format" }
         this.filename = filename
     }
 
     fun setTitle(title: String) {
         this.title = title
+    }
+
+    fun includeRowNumbers(includeRowNumbers: Boolean) {
+        this.includeRowNumbers = includeRowNumbers
     }
 
     fun setColumns(content: Array<Array<Any>>) {
@@ -29,14 +40,14 @@ class FileBuilder {
         addColumns(headers, content)
     }
 
+    fun setColumns(data: Map<String, Array<Any>>) {
+        columns = mutableListOf()
+        addColumns(data)
+    }
+
     fun addColumns(content: Array<Array<Any>>) {
         for (column in content) {
-            if (column.isEmpty()) continue
-            when (column[0]) {
-                is String -> columns.add(StringColumn(content = column as Array<String>) as Column<Any>)
-                is Number -> columns.add(NumberColumn(content = column as Array<Double>) as Column<Any>)
-                else -> throw IllegalArgumentException("Unsupported column type")
-            }
+            addColumn(column)
         }
     }
 
@@ -46,14 +57,13 @@ class FileBuilder {
         for (i in headers.indices) {
             val header = headers[i]
             val column = content[i]
+            addColumn(header, column)
+        }
+    }
 
-            if (column.isEmpty()) continue
-
-            when (column[0]) {
-                is String -> columns.add(StringColumn(header, column as Array<String>) as Column<Any>)
-                is Number -> columns.add(NumberColumn(header, column as Array<Double>) as Column<Any>)
-                else -> throw IllegalArgumentException("Unsupported column type")
-            }
+    fun addColumns(data: Map<String, Array<Any>>) {
+        for ((header, columnData) in data) {
+            addColumn(header, columnData)
         }
     }
 
@@ -73,29 +83,40 @@ class FileBuilder {
         columns.add(NumberColumn(header, numbers as Array<Double>) as Column<Any>)
     }
 
-    fun includeRowNumbers(includeRowNumbers: Boolean) {
-        this.includeRowNumbers = includeRowNumbers
+    fun addColumn(header: String, content: Array<Any>) {
+        when (content.firstOrNull()) {
+            is String -> columns.add(StringColumn(header, content as Array<String>) as Column<Any>)
+            is Number -> columns.add(NumberColumn(header, content as Array<Double>) as Column<Any>)
+            else -> throw IllegalArgumentException("Unsupported column type")
+        }
     }
 
-    fun addSummaryEntry(key: String, value: Any) {
+    fun addColumn(content: Array<Any>) {
+        when (content.firstOrNull()) {
+            is String -> columns.add(StringColumn(content = content as Array<String>) as Column<Any>)
+            is Number -> columns.add(NumberColumn(content = content as Array<Double>) as Column<Any>)
+            else -> throw IllegalArgumentException("Unsupported column type")
+        }
+    }
 
+    // TODO Calculated columns
+
+    fun addSummaryEntry(key: String, value: Any) {
+        this.summary[key] = value
     }
 
     fun addSummaryEntries(entries: Map<String, Any>) {
-
+        this.summary.putAll(entries)
     }
 
     fun setSummaryEntries(entries: Map<String, Any>) {
-        this.summary = entries
+        this.summary = entries.toMutableMap()
     }
 
-    //TODO add more requirements if needed
-    fun build(fileName: String): File {
-        return File(filename, title, columns, includeRowNumbers, summary)
-    }
+    //TODO calculations
 
     fun build(): File {
-        require(::filename.isInitialized) { "File name not set" }
         return File(filename, title, columns, includeRowNumbers, summary)
     }
+
 }
