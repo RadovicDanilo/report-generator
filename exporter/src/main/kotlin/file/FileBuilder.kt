@@ -1,5 +1,7 @@
 package src.main.kotlin.file
 
+import src.main.kotlin.file.column.CalculatedColumn
+import src.main.kotlin.file.column.Calculation
 import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.column.StringColumn
@@ -99,7 +101,29 @@ class FileBuilder(
         }
     }
 
-    // TODO Calculated columns
+    fun addCalculatedColumn(header: String, columns: Array<Array<Number>>, calculation: Calculation) {
+        val arr: MutableList<NumberColumn> = mutableListOf()
+
+        for (column in columns) {
+            val doubleColumn = column.map { it.toDouble() }.toTypedArray()
+            arr.add(NumberColumn(header, doubleColumn))
+        }
+
+        val calculatedColumn = CalculatedColumn(columnsForCalculations = arr.toTypedArray(), calculation = calculation)
+        this.columns.add(calculatedColumn as Column<Any>)
+    }
+
+    fun addCalculatedColumn(columns: Array<Array<Number>>, calculation: Calculation) {
+        val arr: MutableList<NumberColumn> = mutableListOf()
+
+        for (column in columns) {
+            val doubleColumn = column.map { it.toDouble() }.toTypedArray()
+            arr.add(NumberColumn(content = doubleColumn))
+        }
+
+        val calculatedColumn = CalculatedColumn(columnsForCalculations = arr.toTypedArray(), calculation = calculation)
+        this.columns.add(calculatedColumn as Column<Any>)
+    }
 
     fun addSummaryEntry(key: String, value: Any) {
         this.summary[key] = value
