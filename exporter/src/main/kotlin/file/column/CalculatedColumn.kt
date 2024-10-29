@@ -1,9 +1,5 @@
 package src.main.kotlin.file.column
 
-enum class Calculation {
-    ADD, SUB, PROD, DIV
-}
-
 open class CalculatedColumn(
     header: String = "",
     columnsForCalculations: Array<Column<Double>>,

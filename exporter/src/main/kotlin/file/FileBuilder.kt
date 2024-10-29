@@ -6,7 +6,7 @@ import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.column.StringColumn
 
-class FileBuilder(
+open class FileBuilder(
     private var filename: String
 ) {
     var title: String = ""
@@ -139,7 +139,7 @@ class FileBuilder(
 
     //TODO calculations
 
-    fun build(): File {
+    open fun build(): File {
         return File(filename, title, columns, includeRowNumbers, summary)
     }
 

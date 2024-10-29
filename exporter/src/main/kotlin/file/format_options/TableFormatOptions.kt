@@ -2,10 +2,6 @@ package src.main.kotlin.file.format_options
 
 import java.awt.Color
 
-enum class BorderStyle {
-    NORMAL, BOLD, DASHED
-}
-
 data class TableFormatOptions(
     val outerBorderStyle: BorderStyle = BorderStyle.NORMAL,
     val outerBorderColumn: Color = Color.BLACK,
