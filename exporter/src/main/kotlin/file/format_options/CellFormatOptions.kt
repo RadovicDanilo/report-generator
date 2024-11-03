@@ -7,7 +7,5 @@ data class CellFormatOptions(
     val fontSize: Int = 12,
     val alignment: Alignment = Alignment.LEFT,
     val backgroundColor: Color = Color.WHITE,
-    val textColor: Color = Color.BLACK,
-    val borderStyle: BorderStyle = BorderStyle.NORMAL,
-    val borderColor: Color = Color.GRAY
+    val textColor: Color = Color.BLACK
 )
