@@ -3,10 +3,11 @@ package src.main.kotlin.file.format_options
 import java.awt.Color
 
 data class CellFormatOptions(
-    val isBold: Boolean = false,
-    val isItalic: Boolean = false,
-    val isUnderline: Boolean = false,
-    val alignment: Alignment = Alignment.CENTER,
+    val fontStyle: FontStyle = FontStyle.NORMAL,
+    val fontSize: Int = 12,
+    val alignment: Alignment = Alignment.LEFT,
     val backgroundColor: Color = Color.WHITE,
-    val textColor: Color = Color.BLACK
+    val textColor: Color = Color.BLACK,
+    val borderStyle: BorderStyle = BorderStyle.NORMAL,
+    val borderColor: Color = Color.GRAY
 )

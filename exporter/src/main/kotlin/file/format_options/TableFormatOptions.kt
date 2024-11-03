@@ -4,7 +4,7 @@ import java.awt.Color
 
 data class TableFormatOptions(
     val outerBorderStyle: BorderStyle = BorderStyle.NORMAL,
-    val outerBorderColumn: Color = Color.BLACK,
+    val outerBorderColor: Color = Color.BLACK,
     val horizontalBorderStyle: BorderStyle = BorderStyle.NORMAL,
     val horizontalBorderColor: Color = Color.BLACK,
     val verticalBorderStyle: BorderStyle = BorderStyle.NORMAL,

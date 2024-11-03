@@ -4,14 +4,11 @@ import java.awt.Color
 
 data class SummaryFormatOptions(
     val keyColor: Color = Color.BLACK,
-    val keyBackgroundColor: Color = Color.BLACK,
-    val isKeyBold: Boolean = false,
-    val isKeyItalic: Boolean = false,
-    val isKeyUnderlined: Boolean = false,
+    val keyBackgroundColor: Color = Color.WHITE,
+    val keyStyle: FontStyle = FontStyle.BOLD,
     val valueColor: Color = Color.BLACK,
-    val valueBackgroundColor: Color = Color.BLACK,
-    val isValueBold: Boolean = false,
-    val isValueItalic: Boolean = false,
-    val isValueUnderlined: Boolean = false,
-    val roundDecimals: Int = 2
+    val valueBackgroundColor: Color = Color.WHITE,
+    val valueStyle: FontStyle = FontStyle.NORMAL,
+    val roundingPrecision: Int = 2,
+    val alignment: Alignment = Alignment.RIGHT
 )

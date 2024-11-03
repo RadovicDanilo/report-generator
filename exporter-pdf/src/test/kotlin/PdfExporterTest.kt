@@ -6,6 +6,7 @@ import src.main.kotlin.file.FormatFileBuilder
 import src.main.kotlin.file.format_options.Alignment
 import src.main.kotlin.file.format_options.CellFormatOptions
 import src.main.kotlin.file.format_options.SummaryFormatOptions
+import src.main.kotlin.file.format_options.TitleFormatOptions
 import java.awt.Color
 
 class PdfExporterTest {
@@ -13,6 +14,9 @@ class PdfExporterTest {
     private fun createTestFile(includeRowNumbers: Boolean, fileName: String = "test_report"): File {
         val fileBuilder = FormatFileBuilder(fileName)
         fileBuilder.updateTitle("Test Title")
+        fileBuilder.titleFormatOptions = TitleFormatOptions(
+            true,false,true,36, Alignment.CENTER, Color.RED
+        )
         fileBuilder.includeRowNumbers(includeRowNumbers)
 
         val columnHeaders = arrayOf("Name", "Salary", "City")
