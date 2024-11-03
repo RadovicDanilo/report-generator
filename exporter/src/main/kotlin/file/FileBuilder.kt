@@ -10,6 +10,7 @@ import src.main.kotlin.file.column.StringColumn
 import java.sql.Connection
 import java.sql.ResultSet
 
+//TODO int as double cast is not working
 open class FileBuilder(
     private var filename: String
 ) {

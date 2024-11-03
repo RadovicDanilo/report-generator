@@ -6,6 +6,7 @@ import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.FormatNumberColumn
 import src.main.kotlin.file.column.FormatStringColumn
 import src.main.kotlin.file.format_options.CellFormatOptions
+import src.main.kotlin.file.format_options.SummaryFormatOptions
 import src.main.kotlin.file.format_options.TableFormatOptions
 import src.main.kotlin.file.format_options.TitleFormatOptions
 import java.sql.Connection
@@ -16,7 +17,7 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
     var tableFormatOptions: TableFormatOptions = TableFormatOptions()
     var headerFormatOptions: CellFormatOptions = CellFormatOptions()
     var rowNumberFormat: CellFormatOptions = CellFormatOptions()
-    var summaryFormatOptions: CellFormatOptions = CellFormatOptions()
+    var summaryFormatOptions: SummaryFormatOptions = SummaryFormatOptions()
 
 
     fun addFormattedStringColumn(header: String, strings: Array<String>, formatOptions: CellFormatOptions) {

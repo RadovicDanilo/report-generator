@@ -4,10 +4,12 @@ import java.awt.Color
 
 data class SummaryFormatOptions(
     val keyColor: Color = Color.BLACK,
+    val keyBackgroundColor: Color = Color.BLACK,
     val isKeyBold: Boolean = false,
     val isKeyItalic: Boolean = false,
     val isKeyUnderlined: Boolean = false,
     val valueColor: Color = Color.BLACK,
+    val valueBackgroundColor: Color = Color.BLACK,
     val isValueBold: Boolean = false,
     val isValueItalic: Boolean = false,
     val isValueUnderlined: Boolean = false,

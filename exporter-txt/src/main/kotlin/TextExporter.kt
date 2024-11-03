@@ -5,9 +5,10 @@ import java.io.IOException
 
 class TextExporter : ReportExporter() {
     override val exporterType: String = "TXT"
+    override val fileExtension: String = ".txt"
 
     override fun export(file: File) {
-        val filePath = "${file.filename}.txt"
+        val filePath = "${file.filename}${fileExtension}"
 
         if (file.columns.isEmpty()) {
             throw IllegalArgumentException("Report cannot be empty")
