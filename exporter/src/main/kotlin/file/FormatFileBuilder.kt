@@ -1,5 +1,7 @@
 package src.main.kotlin.file
 
+import ColumnCalculationType
+import ColumnContentCalculator
 import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.FormatNumberColumn
 import src.main.kotlin.file.column.FormatStringColumn

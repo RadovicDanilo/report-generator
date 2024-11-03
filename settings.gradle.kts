@@ -4,9 +4,9 @@ plugins {
 rootProject.name = "softverske-komponente-1"
 
 include("app")
+include("calculations")
 include("exporter")
 include("exporter-txt")
 include("exporter-pdf")
 include("exporter-csv")
 include("exporter-xls")
-include("calculations")

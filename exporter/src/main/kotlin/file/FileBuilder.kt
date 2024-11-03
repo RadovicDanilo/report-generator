@@ -1,6 +1,8 @@
 package src.main.kotlin.file
 
 import ColumnCalculationType
+import ColumnContentCalculator
+import SummaryCalculationType
 import SummaryEntryCalculator
 import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.NumberColumn
@@ -26,7 +28,7 @@ open class FileBuilder(
         this.filename = filename
     }
 
-    fun setTitle(title: String) {
+    fun updateTitle(title: String) {
         this.title = title
     }
 

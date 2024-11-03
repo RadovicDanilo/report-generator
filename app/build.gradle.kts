@@ -1,7 +1,24 @@
+import org.gradle.kotlin.dsl.invoke
+
 plugins {
     kotlin("jvm")
+    `java-library`
+
+}
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(17)
 }
