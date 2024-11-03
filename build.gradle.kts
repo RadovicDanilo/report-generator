@@ -26,10 +26,10 @@ subprojects {
 
     dependencies {
         implementation(kotlin("stdlib"))
-        // Add other common dependencies here
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     }
 
-    // Configure source sets for each subproject
     sourceSets {
         val main by getting {
             kotlin.srcDir("src/main/kotlin")
