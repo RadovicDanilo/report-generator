@@ -5,6 +5,8 @@ import src.main.kotlin.file.column.Calculation
 import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.column.StringColumn
+import java.sql.Connection
+import java.sql.ResultSet
 
 open class FileBuilder(
     private var filename: String
@@ -123,6 +125,39 @@ open class FileBuilder(
 
         val calculatedColumn = CalculatedColumn(columnsForCalculations = arr.toTypedArray(), calculation = calculation)
         this.columns.add(calculatedColumn as Column<Any>)
+    }
+
+    fun setColumnsFromSQL(query: String, connection: Connection) {
+        columns = mutableListOf()
+        addColumnsFromSQL(query, connection)
+    }
+
+    fun addColumnsFromSQL(query: String, connection: Connection) {
+        connection.createStatement().use { statement ->
+            val resultSet = statement.executeQuery(query)
+            addColumnsFromResultSet(resultSet)
+        }
+    }
+
+    fun addColumnsFromResultSet(resultSet: ResultSet) {
+        val metaData = resultSet.metaData
+        val columnCount = metaData.columnCount
+
+        while (resultSet.next()) {
+            for (i in 1..columnCount) {
+                val header = metaData.getColumnName(i)
+                val value = resultSet.getObject(i)
+
+                if (value is String) {
+                    addStringColumn(header, arrayOf(value))
+                } else if (value is Number) {
+                    addNumberColumn(header, arrayOf(value))
+                } else {
+                    addStringColumn(header, arrayOf(value.toString()))
+                    // throw IllegalArgumentException("Unsupported SQL column type for column: $header")
+                }
+            }
+        }
     }
 
     fun addSummaryEntry(key: String, value: Any) {

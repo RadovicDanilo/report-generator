@@ -9,6 +9,8 @@ import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.format_options.CellFormatOptions
 import src.main.kotlin.file.format_options.TableFormatOptions
 import src.main.kotlin.file.format_options.TitleFormatOptions
+import java.sql.Connection
+import java.sql.ResultSet
 
 class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
     var titleFormatOptions: TitleFormatOptions = TitleFormatOptions()
@@ -133,6 +135,39 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
             )
 
             else -> throw IllegalArgumentException("Unsupported column type")
+        }
+    }
+
+    fun setColumnsFromSQL(query: String, connection: Connection, formatOptions: CellFormatOptions) {
+        columns = mutableListOf()
+        addColumnsFromSQL(query, connection, formatOptions)
+    }
+
+    fun addColumnsFromSQL(query: String, connection: Connection, formatOptions: CellFormatOptions) {
+        connection.createStatement().use { statement ->
+            val resultSet = statement.executeQuery(query)
+            addColumnsFromResultSet(resultSet, formatOptions)
+        }
+    }
+
+    fun addColumnsFromResultSet(resultSet: ResultSet, formatOptions: CellFormatOptions) {
+        val metaData = resultSet.metaData
+        val columnCount = metaData.columnCount
+
+        while (resultSet.next()) {
+            for (i in 1..columnCount) {
+                val header = metaData.getColumnName(i)
+                val value = resultSet.getObject(i)
+
+                if (value is String) {
+                    addFormattedStringColumn(header, arrayOf(value), formatOptions)
+                } else if (value is Number) {
+                    addFormattedNumberColumn(header, arrayOf(value), formatOptions)
+                } else {
+                    addFormattedStringColumn(header, arrayOf(value.toString()), formatOptions)
+                    // Handle unsupported column types by converting to String
+                }
+            }
         }
     }
 
