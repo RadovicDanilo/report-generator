@@ -40,3 +40,10 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Exported report file
+.txt
+.csv
+.pdf
+.xls
+.xlsx
