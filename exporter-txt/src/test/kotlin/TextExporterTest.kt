@@ -12,7 +12,7 @@ class TextExporterTest {
 
         val columnHeaders = arrayOf("name", "age", "city")
         val columnData = arrayOf(
-            arrayOf("John", "Michael", "Alice"),
+            arrayOf("John", "Michaellllllllllllllll", "Alice"),
             arrayOf("25"),
             arrayOf("New York", "Los Angeles", "Chicago", "Houston")
         )
