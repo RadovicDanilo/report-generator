@@ -1,11 +1,8 @@
 package src.main.kotlin.file
 
-import src.main.kotlin.file.column.Calculation
 import src.main.kotlin.file.column.Column
-import src.main.kotlin.file.column.FormatCalculatedColumn
 import src.main.kotlin.file.column.FormatNumberColumn
 import src.main.kotlin.file.column.FormatStringColumn
-import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.format_options.CellFormatOptions
 import src.main.kotlin.file.format_options.TableFormatOptions
 import src.main.kotlin.file.format_options.TitleFormatOptions
@@ -28,43 +25,6 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
         columns.add(FormatNumberColumn(header, numbers as Array<Double>, formatOptions) as Column<Any>)
     }
 
-    fun addFormattedCalculatedColumn(
-        header: String,
-        columns: Array<Array<Number>>,
-        calculation: Calculation,
-        formatOptions: CellFormatOptions
-    ) {
-        val arr: MutableList<NumberColumn> = mutableListOf()
-
-        for (column in columns) {
-            val doubleColumn = column.map { it.toDouble() }.toTypedArray()
-            arr.add(NumberColumn(header, doubleColumn))
-        }
-
-        val calculatedColumn = FormatCalculatedColumn(header, arr.toTypedArray(), calculation, formatOptions)
-        this.columns.add(calculatedColumn as Column<Any>)
-    }
-
-    fun addFormattedCalculatedColumn(
-        columns: Array<Array<Number>>,
-        calculation: Calculation,
-        formatOptions: CellFormatOptions
-    ) {
-        val arr: MutableList<NumberColumn> = mutableListOf()
-
-        for (column in columns) {
-            val doubleColumn = column.map { it.toDouble() }.toTypedArray()
-            arr.add(NumberColumn(content = doubleColumn))
-        }
-
-        val calculatedColumn = FormatCalculatedColumn(
-            header = "",
-            columnsForCalculations = arr.toTypedArray(),
-            calculation = calculation,
-            cellFormatOptions = formatOptions
-        )
-        this.columns.add(calculatedColumn as Column<Any>)
-    }
 
     fun setColumns(content: Array<Array<Any>>, formatOptions: CellFormatOptions) {
         columns = mutableListOf()
@@ -136,6 +96,25 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
 
             else -> throw IllegalArgumentException("Unsupported column type")
         }
+    }
+
+    fun addCalculatedColumn(
+        columns: Array<Array<Double>>,
+        calculationType: ColumnCalculationType,
+        formatOptions: CellFormatOptions
+    ) {
+        val result = ColumnContentCalculator.calculateColumnContent(columns, calculationType)
+        addColumn(result as Array<Any>, formatOptions)
+    }
+
+    fun addCalculatedColumn(
+        columns: Array<Array<Double>>,
+        calculationType: ColumnCalculationType,
+        header: String,
+        formatOptions: CellFormatOptions
+    ) {
+        val result = ColumnContentCalculator.calculateColumnContent(columns, calculationType)
+        addColumn(header, result as Array<Any>, formatOptions)
     }
 
     fun setColumnsFromSQL(query: String, connection: Connection, formatOptions: CellFormatOptions) {

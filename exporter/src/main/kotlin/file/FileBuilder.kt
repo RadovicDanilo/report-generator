@@ -1,7 +1,7 @@
 package src.main.kotlin.file
 
-import src.main.kotlin.file.column.CalculatedColumn
-import src.main.kotlin.file.column.Calculation
+import ColumnCalculationType
+import SummaryEntryCalculator
 import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.column.StringColumn
@@ -103,28 +103,14 @@ open class FileBuilder(
         }
     }
 
-    fun addCalculatedColumn(header: String, columns: Array<Array<Number>>, calculation: Calculation) {
-        val arr: MutableList<NumberColumn> = mutableListOf()
-
-        for (column in columns) {
-            val doubleColumn = column.map { it.toDouble() }.toTypedArray()
-            arr.add(NumberColumn(header, doubleColumn))
-        }
-
-        val calculatedColumn = CalculatedColumn(columnsForCalculations = arr.toTypedArray(), calculation = calculation)
-        this.columns.add(calculatedColumn as Column<Any>)
+    fun addCalculatedColumn(columns: Array<Array<Double>>, calculationType: ColumnCalculationType) {
+        val result = ColumnContentCalculator.calculateColumnContent(columns, calculationType)
+        addNumberColumn(result as Array<Number>)
     }
 
-    fun addCalculatedColumn(columns: Array<Array<Number>>, calculation: Calculation) {
-        val arr: MutableList<NumberColumn> = mutableListOf()
-
-        for (column in columns) {
-            val doubleColumn = column.map { it.toDouble() }.toTypedArray()
-            arr.add(NumberColumn(content = doubleColumn))
-        }
-
-        val calculatedColumn = CalculatedColumn(columnsForCalculations = arr.toTypedArray(), calculation = calculation)
-        this.columns.add(calculatedColumn as Column<Any>)
+    fun addCalculatedColumn(columns: Array<Array<Double>>, calculationType: ColumnCalculationType, header: String) {
+        val result = ColumnContentCalculator.calculateColumnContent(columns, calculationType)
+        addNumberColumn(header, result as Array<Number>)
     }
 
     fun setColumnsFromSQL(query: String, connection: Connection) {
@@ -172,7 +158,15 @@ open class FileBuilder(
         this.summary = entries.toMutableMap()
     }
 
-    //TODO calculations
+    fun addSummaryEntry(
+        key: String,
+        values: Array<Double>,
+        summaryType: SummaryCalculationType,
+        condition: (Double) -> Boolean = { true }
+    ) {
+        val summaryValue = SummaryEntryCalculator.calculateSummaryEntry(values, summaryType, condition)
+        this.summary[key] = summaryValue
+    }
 
     open fun build(): File {
         return File(filename, title, columns, includeRowNumbers, summary)
