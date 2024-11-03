@@ -3,21 +3,23 @@ import org.junit.jupiter.api.Test
 import src.main.kotlin.file.File
 import src.main.kotlin.file.FormatFile
 import src.main.kotlin.file.FormatFileBuilder
-import src.main.kotlin.file.format_options.Alignment
-import src.main.kotlin.file.format_options.CellFormatOptions
-import src.main.kotlin.file.format_options.SummaryFormatOptions
-import src.main.kotlin.file.format_options.TitleFormatOptions
+import src.main.kotlin.file.format_options.*
+import src.main.kotlin.file.format_options.BorderStyle
 import java.awt.Color
 
 class PdfExporterTest {
 
-    private fun createTestFile(includeRowNumbers: Boolean, fileName: String = "test_report"): File {
+    private fun createTestFile(fileName: String = "test_report"): File {
         val fileBuilder = FormatFileBuilder(fileName)
         fileBuilder.updateTitle("Test Title")
         fileBuilder.titleFormatOptions = TitleFormatOptions(
-            true,false,true,36, Alignment.CENTER, Color.RED
+            fontStyle = FontStyle.BOLD_ITALIC,
+            fontSize = 36,
+            alignment = Alignment.CENTER,
+            color = Color.RED,
+            backgroundColor = Color.LIGHT_GRAY
         )
-        fileBuilder.includeRowNumbers(includeRowNumbers)
+        fileBuilder.includeRowNumbers(true)
 
         val columnHeaders = arrayOf("Name", "Salary", "City")
         val columnData = arrayOf(
@@ -27,45 +29,48 @@ class PdfExporterTest {
         )
 
         fileBuilder.headerFormatOptions = CellFormatOptions(
-            isBold = true,
-            isItalic = false,
-            isUnderline = true,
+            fontStyle = FontStyle.BOLD_UNDERLINE,
+            fontSize = 14,
             alignment = Alignment.CENTER,
             textColor = Color.BLUE,
-            backgroundColor = Color.CYAN
+            backgroundColor = Color.CYAN,
         )
 
         fileBuilder.summaryFormatOptions = SummaryFormatOptions(
-            Color.WHITE,
-            Color.YELLOW,
-            isKeyBold = true,
-            isKeyItalic = true,
-            isKeyUnderlined = false,
-            Color.GREEN,
-            Color.RED,
-            isValueBold = true,
-            isValueItalic = true,
-            isValueUnderlined = false,
-            2
+            keyColor = Color.WHITE,
+            keyBackgroundColor = Color.DARK_GRAY,
+            keyStyle = FontStyle.BOLD_ITALIC,
+            valueColor = Color.BLACK,
+            valueBackgroundColor = Color.YELLOW,
+            valueStyle = FontStyle.ITALIC,
+            roundingPrecision = 2,
+            alignment = Alignment.RIGHT
         )
 
         fileBuilder.rowNumberFormat = CellFormatOptions(
-            isBold = true,
-            isItalic = false,
-            isUnderline = false,
+            fontStyle = FontStyle.BOLD,
+            fontSize = 12,
             alignment = Alignment.RIGHT,
             textColor = Color.RED,
-            backgroundColor = Color.LIGHT_GRAY
+            backgroundColor = Color.LIGHT_GRAY,
+        )
+
+        fileBuilder.tableFormatOptions = TableFormatOptions(
+            outerBorderStyle = BorderStyle.DASHED,
+            outerBorderColor = Color.RED,
+            horizontalBorderStyle = BorderStyle.DASHED,
+            horizontalBorderColor = Color.RED,
+            verticalBorderStyle = BorderStyle.DASHED,
+            verticalBorderColor = Color.RED,
         )
 
         fileBuilder.setColumns(
             columnHeaders, columnData as Array<Array<Any>>, CellFormatOptions(
-                isBold = false,
-                isItalic = false,
-                isUnderline = false,
+                fontStyle = FontStyle.NORMAL,
+                fontSize = 12,
                 alignment = Alignment.RIGHT,
                 textColor = Color.GREEN,
-                backgroundColor = Color.BLACK
+                backgroundColor = Color.BLACK,
             )
         )
 
@@ -75,25 +80,16 @@ class PdfExporterTest {
     }
 
     @Test
-    fun testExportFormattedFileWithRowNumbers() {
-        val formattedFile = createTestFile(includeRowNumbers = true, fileName = "format_test_report_with_row_numbers")
+    fun testExportFormattedFile() {
+        val formattedFile = createTestFile(fileName = "format_test_report")
         val exporter = PdfExporter()
         exporter.exportFormated(formattedFile as FormatFile)
         assertNotNull(formattedFile)
     }
 
     @Test
-    fun testExportUnformattedFileWithRowNumbers() {
-        val unformattedFile = createTestFile(includeRowNumbers = true, fileName = "file_test_report_with_row_numbers")
-        val exporter = PdfExporter()
-        exporter.export(unformattedFile)
-        assertNotNull(unformattedFile)
-    }
-
-    @Test
-    fun testExportUnformattedFileWithoutRowNumbers() {
-        val unformattedFile =
-            createTestFile(includeRowNumbers = false, fileName = "file_test_report_without_row_numbers")
+    fun testExportUnformattedFile() {
+        val unformattedFile = createTestFile(fileName = "file_test_report")
         val exporter = PdfExporter()
         exporter.export(unformattedFile)
         assertNotNull(unformattedFile)
