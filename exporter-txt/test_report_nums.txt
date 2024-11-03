@@ -1,6 +1,7 @@
 Test Title
 
 Row_Nums    name                      age    city           
+--------    ----------------------    ---    -----------    
 1           John                      25     New York       
 2           Michaellllllllllllllll           Los Angeles    
 3           Alice                            Chicago        

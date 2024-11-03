@@ -40,6 +40,11 @@ class TextExporter : ReportExporter() {
                     (if (file.includeRowNumbers) listOf("Row_Nums") else emptyList()) + file.columns.map { it.header }
                 writeRow(writer, headers, columnWidths)
 
+                for (i in headers.indices) {
+                    writer.write(formatCell("-".repeat(columnWidths[i]), columnWidths[i]))
+                }
+                writer.write("\n")
+
                 val rowCount = file.columns.maxOf { it.content.size }
                 for (i in 0 until rowCount) {
                     val rowData = mutableListOf<String>()
