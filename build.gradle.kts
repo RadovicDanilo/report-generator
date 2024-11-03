@@ -20,20 +20,3 @@ tasks.test {
 kotlin {
     jvmToolchain(17)
 }
-
-subprojects {
-    apply(plugin = "kotlin")
-
-    dependencies {
-        implementation(kotlin("stdlib"))
-        testImplementation("org.jetbrains.kotlin:kotlin-test")
-        testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
-    }
-
-    sourceSets {
-        val main by getting {
-            kotlin.srcDir("src/main/kotlin")
-            resources.srcDir("src/main/resources")
-        }
-    }
-}
