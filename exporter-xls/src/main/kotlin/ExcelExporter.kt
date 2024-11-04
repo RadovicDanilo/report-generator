@@ -155,12 +155,17 @@ class ExcelExporter() : FormatReportExported() {
             }
 
             val headerRow = sheet.createRow(rowIndex++)
+
+            //TODO create header row style
+
             val headers =
                 (if (file.includeRowNumbers) listOf("Row_Nums") else emptyList()) + file.columns.map { it.header }
             headers.forEachIndexed { index, header ->
                 val cell = headerRow.createCell(index)
                 cell.setCellValue(header)
             }
+
+            //TODO create array of style similar to PDF
 
             val rowCount = file.columns.maxOf { it.content.size }
             for (i in 0 until rowCount) {
@@ -179,7 +184,12 @@ class ExcelExporter() : FormatReportExported() {
                 }
             }
 
+            //TODO apply table formating inner borders (vertical and horizontal) then outer border
+
             if (file.summary.isNotEmpty()) {
+
+                //TODO create key and value styles
+
                 rowIndex++
                 val summaryHeaderRow = sheet.createRow(rowIndex++)
                 val summaryHeaderCell = summaryHeaderRow.createCell(0)
