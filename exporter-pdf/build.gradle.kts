@@ -6,7 +6,7 @@ plugins {
 
 }
 
-group = "org.example"
+group = "com.radovicdanilo"
 version = "1.0-SNAPSHOT"
 
 repositories {
