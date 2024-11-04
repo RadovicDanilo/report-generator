@@ -94,6 +94,7 @@ class PdfExporter() : FormatReportExported() {
         document.add(summaryTable)
 
         document.close()
+        println("Export successful! Data saved to $filePath")
     }
 
     override fun exportFormated(file: FormatFile) {
@@ -326,6 +327,7 @@ class PdfExporter() : FormatReportExported() {
 
         document.add(summaryTable)
         document.close()
+        println("Export successful! Data saved to $filePath")
     }
 
     private fun getFontStyle(style: FontStyle): Int {
