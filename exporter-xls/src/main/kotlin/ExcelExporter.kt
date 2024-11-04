@@ -312,10 +312,10 @@ class ExcelExporter() : FormatReportExported() {
 
                     val currentStyle = cell.cellStyle ?: workbook.createCellStyle()
                     currentStyle.apply {
-                        setBorderBottom(getBorderStyle(file.tableFormatOptions.horizontalBorderStyle))
-                        setBorderTop(getBorderStyle(file.tableFormatOptions.horizontalBorderStyle))
-                        setBorderLeft(getBorderStyle(file.tableFormatOptions.verticalBorderStyle))
-                        setBorderRight(getBorderStyle(file.tableFormatOptions.verticalBorderStyle))
+                        borderBottom = getBorderStyle(file.tableFormatOptions.horizontalBorderStyle)
+                        borderTop = getBorderStyle(file.tableFormatOptions.horizontalBorderStyle)
+                        borderLeft = getBorderStyle(file.tableFormatOptions.verticalBorderStyle)
+                        borderRight = getBorderStyle(file.tableFormatOptions.verticalBorderStyle)
 
                         setBottomBorderColor(getColor(file.tableFormatOptions.horizontalBorderColor))
                         setTopBorderColor(getColor(file.tableFormatOptions.horizontalBorderColor))

@@ -73,6 +73,7 @@ class PdfExporter() : FormatReportExported() {
                 } else {
                     table.addCell("")
                 }
+                table.addCell(cellContent.toString())
             }
         }
 
