@@ -42,8 +42,8 @@ bin/
 .DS_Store
 
 ### Exported report file
-.txt
-.csv
-.pdf
-.xls
-.xlsx
+*.txt
+*.csv
+*.pdf
+*.xls
+*.xlsx
