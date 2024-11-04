@@ -15,9 +15,11 @@ repositories {
 
 dependencies {
     implementation(project(":exporter"))
+    implementation(project(":calculations"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-    implementation("org.apache.poi:poi:3.9")
+    implementation("org.apache.poi:poi:4.1.1")
+    implementation("org.apache.poi:poi-ooxml:4.1.1")
 }
 
 tasks.test {

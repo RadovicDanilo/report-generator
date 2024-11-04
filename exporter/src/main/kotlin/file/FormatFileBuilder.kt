@@ -147,7 +147,6 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
                     addFormattedNumberColumn(header, arrayOf(value), formatOptions)
                 } else {
                     addFormattedStringColumn(header, arrayOf(value.toString()), formatOptions)
-                    // Handle unsupported column types by converting to String
                 }
             }
         }
