@@ -43,7 +43,7 @@ tasks.jar {
 */
 
 application {
-    mainClass.set("Main")
+    mainClass.set("MainKt")
 }
 
 tasks {
@@ -52,7 +52,7 @@ tasks {
         mergeServiceFiles() // Merge META-INF/services
 
         manifest {
-            attributes["Main-Class"] = "maine.MainKt" // Replace with your main class
+            attributes["Main-Class"] = "MainKt" // Replace with your main class
         }
     }
 }

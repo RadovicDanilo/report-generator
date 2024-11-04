@@ -1,15 +1,13 @@
 import src.main.kotlin.ReportExporter
 import java.util.ServiceLoader
 
-class Main {
-    fun main(args: Array<String>) {
-        val serviceLoader = ServiceLoader.load(ReportExporter::class.java)
+fun main(args: Array<String>) {
+    val serviceLoader = ServiceLoader.load(ReportExporter::class.java)
 
-        println("Registered services\n")
-        serviceLoader.forEach { pushService ->
-            println("   exporter type: ${pushService.exporterType}")
-            println("   exporter file extensions: ${pushService.fileExtension}\n")
-        }
-
+    println("Registered services\n")
+    serviceLoader.forEach { pushService ->
+        println("   exporter type: ${pushService.exporterType}")
+        println("   exporter file extensions: ${pushService.fileExtension}\n")
     }
+
 }
