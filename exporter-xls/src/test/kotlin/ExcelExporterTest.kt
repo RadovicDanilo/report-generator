@@ -57,9 +57,9 @@ class ExcelExporterTest {
 
         fileBuilder.tableFormatOptions = TableFormatOptions(
             outerBorderStyle = BorderStyle.DASHED,
-            outerBorderColor = Color.RED,
+            outerBorderColor = Color.BLUE,
             horizontalBorderStyle = BorderStyle.DASHED,
-            horizontalBorderColor = Color.RED,
+            horizontalBorderColor = Color.BLUE,
             verticalBorderStyle = BorderStyle.DASHED,
             verticalBorderColor = Color.RED,
         )

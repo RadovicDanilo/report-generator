@@ -12,8 +12,10 @@ import src.main.kotlin.file.column.FormatStringColumn
 import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.column.StringColumn
 import src.main.kotlin.file.format_options.Alignment
+import src.main.kotlin.file.format_options.BorderStyle
 import src.main.kotlin.file.format_options.CellFormatOptions
 import src.main.kotlin.file.format_options.FontStyle
+import java.awt.Color
 import java.io.FileOutputStream
 import java.io.IOException
 
@@ -103,6 +105,16 @@ class ExcelExporter() : FormatReportExported() {
 
             var rowIndex = 0
 
+            fun getColor(color: Color): XSSFColor {
+                return XSSFColor(
+                    byteArrayOf(
+                        color.red.toByte(),
+                        color.green.toByte(),
+                        color.blue.toByte()
+                    ), null
+                )
+            }
+
             if (file.title.isNotEmpty()) {
                 val titleRow = sheet.createRow(rowIndex++)
                 val titleCell = titleRow.createCell(0)
@@ -118,12 +130,8 @@ class ExcelExporter() : FormatReportExported() {
                             FontUnderline.SINGLE.byteValue else FontUnderline.NONE.byteValue
                     fontHeightInPoints = file.titleFormatOptions.fontSize.toShort()
                     this.setColor(
-                        XSSFColor(
-                            byteArrayOf(
-                                file.titleFormatOptions.color.red.toByte(),
-                                file.titleFormatOptions.color.green.toByte(),
-                                file.titleFormatOptions.color.blue.toByte()
-                            ), null
+                        getColor(
+                            file.titleFormatOptions.color
                         )
                     )
                 }
@@ -137,12 +145,8 @@ class ExcelExporter() : FormatReportExported() {
                 }
 
                 titleStyle.setFillForegroundColor(
-                    XSSFColor(
-                        byteArrayOf(
-                            file.titleFormatOptions.backgroundColor.red.toByte(),
-                            file.titleFormatOptions.backgroundColor.green.toByte(),
-                            file.titleFormatOptions.backgroundColor.blue.toByte()
-                        ), null
+                    getColor(
+                        file.titleFormatOptions.backgroundColor
                     )
                 )
                 titleStyle.fillPattern = FillPatternType.SOLID_FOREGROUND
@@ -171,12 +175,8 @@ class ExcelExporter() : FormatReportExported() {
                         FontUnderline.SINGLE.byteValue else FontUnderline.NONE.byteValue
                 fontHeightInPoints = file.headerFormatOptions.fontSize.toShort()
                 this.setColor(
-                    XSSFColor(
-                        byteArrayOf(
-                            file.headerFormatOptions.textColor.red.toByte(),
-                            file.headerFormatOptions.textColor.green.toByte(),
-                            file.headerFormatOptions.textColor.blue.toByte()
-                        ), null
+                    getColor(
+                        file.headerFormatOptions.textColor
                     )
                 )
             }
@@ -189,12 +189,8 @@ class ExcelExporter() : FormatReportExported() {
                     Alignment.RIGHT -> HorizontalAlignment.RIGHT
                 }
                 setFillForegroundColor(
-                    XSSFColor(
-                        byteArrayOf(
-                            file.headerFormatOptions.backgroundColor.red.toByte(),
-                            file.headerFormatOptions.backgroundColor.green.toByte(),
-                            file.headerFormatOptions.backgroundColor.blue.toByte()
-                        ), null
+                    getColor(
+                        file.headerFormatOptions.backgroundColor
                     )
                 )
                 fillPattern = FillPatternType.SOLID_FOREGROUND
@@ -218,12 +214,8 @@ class ExcelExporter() : FormatReportExported() {
                         FontUnderline.SINGLE.byteValue else FontUnderline.NONE.byteValue
                 fontHeightInPoints = file.rowNumberFormat.fontSize.toShort()
                 this.setColor(
-                    XSSFColor(
-                        byteArrayOf(
-                            file.rowNumberFormat.textColor.red.toByte(),
-                            file.rowNumberFormat.textColor.green.toByte(),
-                            file.rowNumberFormat.textColor.blue.toByte()
-                        ), null
+                    getColor(
+                        file.rowNumberFormat.textColor
                     )
                 )
             }
@@ -236,12 +228,8 @@ class ExcelExporter() : FormatReportExported() {
                     Alignment.RIGHT -> HorizontalAlignment.RIGHT
                 }
                 setFillForegroundColor(
-                    XSSFColor(
-                        byteArrayOf(
-                            file.rowNumberFormat.backgroundColor.red.toByte(),
-                            file.rowNumberFormat.backgroundColor.green.toByte(),
-                            file.rowNumberFormat.backgroundColor.blue.toByte()
-                        ), null
+                    getColor(
+                        file.rowNumberFormat.backgroundColor
                     )
                 )
                 fillPattern = FillPatternType.SOLID_FOREGROUND
@@ -264,12 +252,8 @@ class ExcelExporter() : FormatReportExported() {
                             FontUnderline.SINGLE.byteValue else FontUnderline.NONE.byteValue
                     fontHeightInPoints = formatOptions.fontSize.toShort()
                     this.setColor(
-                        XSSFColor(
-                            byteArrayOf(
-                                formatOptions.textColor.red.toByte(),
-                                formatOptions.textColor.green.toByte(),
-                                formatOptions.textColor.blue.toByte()
-                            ), null
+                        getColor(
+                            formatOptions.textColor
                         )
                     )
                 }
@@ -282,12 +266,8 @@ class ExcelExporter() : FormatReportExported() {
                         Alignment.RIGHT -> HorizontalAlignment.RIGHT
                     }
                     setFillForegroundColor(
-                        XSSFColor(
-                            byteArrayOf(
-                                formatOptions.backgroundColor.red.toByte(),
-                                formatOptions.backgroundColor.green.toByte(),
-                                formatOptions.backgroundColor.blue.toByte()
-                            ), null
+                        getColor(
+                            formatOptions.backgroundColor
                         )
                     )
                     fillPattern = FillPatternType.SOLID_FOREGROUND
@@ -313,7 +293,39 @@ class ExcelExporter() : FormatReportExported() {
                 }
             }
 
-            //TODO apply table formating inner borders (vertical and horizontal) then outer border
+            val startRowIndex = if (file.title.isNotEmpty()) 2 else 1
+            val endRowIndex = file.columns.maxOf { it.content.size }
+            val startColIndex = 0
+            val endColIndex = file.columns.size + (if (file.includeRowNumbers) 0 else -1)
+
+            fun getBorderStyle(borderStyle: BorderStyle): org.apache.poi.ss.usermodel.BorderStyle {
+                return when (borderStyle) {
+                    BorderStyle.NORMAL -> org.apache.poi.ss.usermodel.BorderStyle.NONE
+                    BorderStyle.BOLD -> org.apache.poi.ss.usermodel.BorderStyle.THICK
+                    BorderStyle.DASHED -> org.apache.poi.ss.usermodel.BorderStyle.DASHED
+                }
+            }
+
+            for (row in startRowIndex..endRowIndex) {
+                for (col in startColIndex..endColIndex) {
+                    val cell = sheet.getRow(row)?.getCell(col) ?: sheet.getRow(row).createCell(col)
+
+                    val currentStyle = cell.cellStyle ?: workbook.createCellStyle()
+                    currentStyle.apply {
+                        setBorderBottom(getBorderStyle(file.tableFormatOptions.horizontalBorderStyle))
+                        setBorderTop(getBorderStyle(file.tableFormatOptions.horizontalBorderStyle))
+                        setBorderLeft(getBorderStyle(file.tableFormatOptions.verticalBorderStyle))
+                        setBorderRight(getBorderStyle(file.tableFormatOptions.verticalBorderStyle))
+
+                        setBottomBorderColor(getColor(file.tableFormatOptions.horizontalBorderColor))
+                        setTopBorderColor(getColor(file.tableFormatOptions.horizontalBorderColor))
+                        setLeftBorderColor(getColor(file.tableFormatOptions.verticalBorderColor))
+                        setRightBorderColor(getColor(file.tableFormatOptions.verticalBorderColor))
+                    }
+
+                    cell.cellStyle = currentStyle
+                }
+            }
 
             if (file.summary.isNotEmpty()) {
                 val keyFont = workbook.createFont().apply {
