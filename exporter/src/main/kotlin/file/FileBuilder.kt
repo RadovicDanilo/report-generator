@@ -369,6 +369,46 @@ open class FileBuilder(
     }
 
     /**
+     * Returns a string representation of the current state of the FileBuilder instance.
+     *
+     * The string includes:
+     * - The filename, title, and whether row numbers are included.
+     * - A list of columns with their headers and content.
+     * - A summary section with key-value pairs.
+     */
+    override fun toString(): String {
+        val text = StringBuilder(
+            "Current FileBuilder state(filename='$filename'\n title='$title'\n includeRowNumbers=$includeRowNumbers\n\n"
+        )
+
+        text.append("Column header: Column data\n")
+        for (column in columns) {
+            text.append(writeCollumn(column))
+        }
+        text.append("\n")
+
+        text.append("Key: Value\n")
+        for (kv in summary) {
+            text.append("${kv.key}: ${kv.value}\n")
+        }
+
+        return text.toString()
+    }
+
+    /**
+     * Converts a column's header and content into a formatted string.
+     *
+     * @param column The column to be formatted into a string.
+     * @return A string representing the column header followed by its content.
+     */
+    fun writeCollumn(column: Column<Any>): String {
+        val header = column.header
+        val content = column.content.joinToString(", ") { it.toString() }
+
+        return "$header: $content\n"
+    }
+
+    /**
      * Builds and returns the final [File] instance with the configured properties.
      *
      * @return A new [File] instance.
