@@ -3,13 +3,13 @@ package src.main.kotlin.file.format_options
 import java.awt.Color
 
 /**
- * A data class used to represent the formating of the table
+ * A data class used to represent the formatting of the title.
  *
- * @property fontStyle the font style of the title
- * @property fontSize the font size of the title
- * @property alignment the alignment of the title
- * @property color the text color of the title
- * @property backgroundColor the background color of the title
+ * @property fontStyle The font style of the title.
+ * @property fontSize The font size of the title.
+ * @property alignment The alignment of the title text.
+ * @property color The color of the title text.
+ * @property backgroundColor The background color of the title.
  */
 
 data class TitleFormatOptions(

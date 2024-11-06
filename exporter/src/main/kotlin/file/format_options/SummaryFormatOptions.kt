@@ -3,16 +3,16 @@ package src.main.kotlin.file.format_options
 import java.awt.Color
 
 /**
- * A data class used to represent the formating of the summary section of a file
+ * A data class used to represent the formatting of the summary section of a file.
  *
- * @property keyColor key text color
- * @property keyBackgroundColor key background color
- * @property keyStyle style of the key test
- * @property valueColor value text color
- * @property valueBackgroundColor value background color
- * @property valueStyle style of value text
- * @property roundingPrecision round precision for double values
- * @property alignment alignment of the key and value
+ * @property keyColor The color of the key text.
+ * @property keyBackgroundColor The background color of the key.
+ * @property keyStyle The style of the key text.
+ * @property valueColor The color of the value text.
+ * @property valueBackgroundColor The background color of the value.
+ * @property valueStyle The style of the value text.
+ * @property roundingPrecision The rounding precision for double values.
+ * @property alignment The alignment of the key and value.
  */
 
 data class SummaryFormatOptions(
