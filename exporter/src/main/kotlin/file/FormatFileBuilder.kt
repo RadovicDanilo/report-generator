@@ -5,6 +5,8 @@ import ColumnContentCalculator
 import src.main.kotlin.file.column.Column
 import src.main.kotlin.file.column.FormatNumberColumn
 import src.main.kotlin.file.column.FormatStringColumn
+import src.main.kotlin.file.column.NumberColumn
+import src.main.kotlin.file.column.StringColumn
 import src.main.kotlin.file.format_options.CellFormatOptions
 import src.main.kotlin.file.format_options.SummaryFormatOptions
 import src.main.kotlin.file.format_options.TableFormatOptions
@@ -98,6 +100,28 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
             )
 
             else -> throw IllegalArgumentException("Unsupported column type")
+        }
+    }
+
+    fun changeColumnStyleWithIndex(index: Int, formatOptions: CellFormatOptions) {
+        if (!columns.indices.contains(index))
+            return
+        if (columns[index] is FormatNumberColumn) {
+            (columns[index] as FormatNumberColumn).columnFormatOptions = formatOptions
+        } else if (columns[index] is FormatStringColumn) {
+            (columns[index] as FormatStringColumn).columnFormatOptions = formatOptions
+        } else if (columns[index] is NumberColumn) {
+            columns[index] = FormatNumberColumn(
+                columns[index].header,
+                columns[index].content as Array<Double>,
+                formatOptions
+            ) as Column<Any>
+        } else if (columns[index] is StringColumn) {
+            columns[index] = FormatStringColumn(
+                columns[index].header,
+                columns[index].content as Array<String>,
+                formatOptions
+            ) as Column<Any>
         }
     }
 

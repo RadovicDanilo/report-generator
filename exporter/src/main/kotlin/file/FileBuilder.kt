@@ -10,7 +10,6 @@ import src.main.kotlin.file.column.StringColumn
 import java.sql.Connection
 import java.sql.ResultSet
 
-//TODO int as double cast is not working
 open class FileBuilder(
     private var filename: String
 ) {
@@ -105,6 +104,11 @@ open class FileBuilder(
             is Number -> columns.add(NumberColumn(content = content as Array<Double>) as Column<Any>)
             else -> throw IllegalArgumentException("Unsupported column type")
         }
+    }
+
+    fun removeColumnWithIndex(index: Int) {
+        if (columns.indices.contains(index))
+            columns.removeAt(index)
     }
 
     fun addCalculatedColumn(columns: Array<Array<Double>>, calculationType: ColumnCalculationType) {
