@@ -87,7 +87,8 @@ open class FileBuilder(
     }
 
     fun addNumberColumn(header: String, numbers: Array<Number>) {
-        columns.add(NumberColumn(header, numbers as Array<Double>) as Column<Any>)
+        val doubleArray = numbers.map { it.toDouble() }.toTypedArray()
+        columns.add(NumberColumn(header, doubleArray) as Column<Any>)
     }
 
     fun addColumn(header: String, content: Array<Any>) {
@@ -132,19 +133,29 @@ open class FileBuilder(
         val metaData = resultSet.metaData
         val columnCount = metaData.columnCount
 
+        val columnsData = mutableMapOf<String, MutableList<Any>>()
+
+        for (i in 1..columnCount) {
+            val header = metaData.getColumnName(i)
+            columnsData[header] = mutableListOf()
+        }
+
         while (resultSet.next()) {
             for (i in 1..columnCount) {
                 val header = metaData.getColumnName(i)
                 val value = resultSet.getObject(i)
 
-                if (value is String) {
-                    addStringColumn(header, arrayOf(value))
-                } else if (value is Number) {
-                    addNumberColumn(header, arrayOf(value))
-                } else {
-                    addStringColumn(header, arrayOf(value.toString()))
-                    // throw IllegalArgumentException("Unsupported SQL column type for column: $header")
-                }
+                columnsData[header]?.add(value ?: "")
+            }
+        }
+
+        for ((header, values) in columnsData) {
+            if (values.all { it is String }) {
+                addStringColumn(header, values.map { it.toString() }.toTypedArray() as Array<String>)
+            } else if (values.all { it is Number }) {
+                addNumberColumn(header, values.map { (it as Number).toDouble() }.toTypedArray() as Array<Number>)
+            } else {
+                addStringColumn(header, values.map { it.toString() }.toTypedArray() as Array<String>)
             }
         }
     }

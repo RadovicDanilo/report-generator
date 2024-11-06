@@ -11,6 +11,17 @@ object SummaryEntryCalculator {
         }
     }
 
+    fun calculateSummaryEntry(
+        values: Array<String>,
+        calcType: SummaryCalculationType,
+        condition: (String) -> Boolean = { true }
+    ): Any {
+        return when (calcType) {
+            SummaryCalculationType.COUNT -> count(values, condition)
+            else -> throw IllegalArgumentException("Invalid calculation type")
+        }
+    }
+
     private fun sum(values: Array<Double>, condition: (Double) -> Boolean = { true }): Double {
         return values.filter(condition).sum()
     }
