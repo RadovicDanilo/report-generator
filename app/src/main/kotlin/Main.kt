@@ -5,7 +5,6 @@ import src.main.kotlin.file.FormatFile
 import src.main.kotlin.file.FormatFileBuilder
 import src.main.kotlin.file.column.NumberColumn
 import src.main.kotlin.file.column.StringColumn
-import src.main.kotlin.file.format_options.Alignment
 import src.main.kotlin.file.format_options.CellFormatOptions
 import src.main.kotlin.file.format_options.FontStyle
 import java.awt.Color
@@ -155,8 +154,13 @@ fun createFormatReport(connection: Connection, exporter: ReportExporter) {
     }
 }
 
+fun printBuildersCurrentState(fileBuilder: FileBuilder) {
+    println(fileBuilder.toString())
+}
+
 fun handleCalculatedColumns(fileBuilder: FileBuilder) {
     while (promptForYesNo("Would you like to add a calculated column? (Y/N, default is N):")) {
+        printBuildersCurrentState(fileBuilder)
         val calcType = promptForCalculationType("Choose an operation for the calculated column: ADD, SUB, PROD, DIV:")
         val columnIndices = promptForColumnIndices(
             fileBuilder,
@@ -174,6 +178,7 @@ fun handleCalculatedColumns(fileBuilder: FileBuilder) {
 
 fun handleSummaryEntries(fileBuilder: FileBuilder) {
     while (promptForYesNo("Would you like to add a summary entry? (Y/N, default is N):")) {
+        printBuildersCurrentState(fileBuilder)
         val summaryType = promptForSummaryType("Choose a summary type: SUM, AVERAGE, COUNT:")
         val columnIndex =
             promptForColumnIndex(fileBuilder, "Enter the index of the column to calculate the summary for:")
@@ -203,6 +208,7 @@ fun handleSummaryEntries(fileBuilder: FileBuilder) {
 
 fun handleColumnStyle(fileBuilder: FormatFileBuilder) {
     while (promptForYesNo("Would you like to edit the style of a column? (Y/N, default is N):")) {
+        printBuildersCurrentState(fileBuilder)
         val columnIndex = promptForColumnIndex(fileBuilder, "Enter the index of the column to edit style:")
         val column = fileBuilder.columns[columnIndex]
 
@@ -255,16 +261,6 @@ fun promptForColumnIndices(fileBuilder: FileBuilder, prompt: String): List<Int> 
 fun promptForColumnIndex(fileBuilder: FileBuilder, prompt: String): Int {
     println(prompt)
     return readln().toIntOrNull()?.takeIf { it in fileBuilder.columns.indices } ?: -1
-}
-
-fun promptForAlignment(prompt: String): Alignment {
-    println(prompt)
-    return when (readln().toIntOrNull() ?: 1) {
-        1 -> Alignment.LEFT
-        2 -> Alignment.CENTER
-        3 -> Alignment.RIGHT
-        else -> Alignment.LEFT
-    }
 }
 
 fun promptForFontStyle(prompt: String): FontStyle {
