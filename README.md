@@ -1,6 +1,7 @@
 # softverske-komponente-1
 
 # SQL SCRIPT
+
 jdbc:mysql://127.0.0.1:3306/report?user=root"&"password=
 
 CREATE TABLE employees (
