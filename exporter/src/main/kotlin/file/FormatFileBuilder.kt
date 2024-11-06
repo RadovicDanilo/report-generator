@@ -106,11 +106,7 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
     fun changeColumnStyleWithIndex(index: Int, formatOptions: CellFormatOptions) {
         if (!columns.indices.contains(index))
             return
-        if (columns[index] is FormatNumberColumn) {
-            (columns[index] as FormatNumberColumn).columnFormatOptions = formatOptions
-        } else if (columns[index] is FormatStringColumn) {
-            (columns[index] as FormatStringColumn).columnFormatOptions = formatOptions
-        } else if (columns[index] is NumberColumn) {
+        if (columns[index] is NumberColumn) {
             columns[index] = FormatNumberColumn(
                 columns[index].header,
                 columns[index].content as Array<Double>,
