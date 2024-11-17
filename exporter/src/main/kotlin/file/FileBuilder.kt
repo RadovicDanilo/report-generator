@@ -381,9 +381,10 @@ open class FileBuilder(
             "Current FileBuilder state(filename='$filename'\n title='$title'\n includeRowNumbers=$includeRowNumbers\n\n"
         )
 
-        text.append("Column header: Column data\n")
-        for (column in columns) {
-            text.append(writeCollumn(column))
+        text.append("Colum Index | Column header | Column data\n")
+        for (i in columns.indices) {
+            val column = columns[i]
+            text.append(writeColumn(column, i))
         }
         text.append("\n")
 
@@ -401,11 +402,11 @@ open class FileBuilder(
      * @param column The column to be formatted into a string.
      * @return A string representing the column header followed by its content.
      */
-    fun writeCollumn(column: Column<Any>): String {
+    fun writeColumn(column: Column<Any>, index: Int): String {
         val header = column.header
         val content = column.content.joinToString(", ") { it.toString() }
 
-        return "$header: $content\n"
+        return "$index | $header | $content\n"
     }
 
     /**
