@@ -1,6 +1,7 @@
 package src.main.kotlin
 
 import src.main.kotlin.file.FormatFile
+import src.main.kotlin.file.FormatFileBuilder
 
 /**
  * An abstract class for a formatted report exporter.
@@ -14,5 +15,5 @@ abstract class FormatReportExported : ReportExporter() {
      *
      * @param file The formatted file that will be exported.
      */
-    abstract fun exportFormated(file: FormatFile)
+    abstract fun exportFormated(file: FormatFileBuilder)
 }

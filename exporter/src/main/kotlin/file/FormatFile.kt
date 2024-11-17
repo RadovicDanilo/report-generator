@@ -22,7 +22,7 @@ import java.util.Collections
  * @property summaryFormatOptions Formatting options for the summary section.
  */
 
-class FormatFile(
+internal class FormatFile(
     fileName: String,
     title: String = "",
     val titleFormatOptions: TitleFormatOptions = TitleFormatOptions(),

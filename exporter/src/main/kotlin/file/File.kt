@@ -12,7 +12,7 @@ import java.util.Collections.emptyMap
  * @property includeRowNumbers Include row numbers as the first column.
  * @property summary Map of key-value pairs used for summaries at the bottom of the report.
  */
-open class File(
+internal open class File(
     val filename: String,
     val title: String = "",
     val columns: List<Column<Any>>,

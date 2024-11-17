@@ -7,7 +7,7 @@ import src.main.kotlin.file.format_options.CellFormatOptions
  *
  * @property columnFormatOptions The formatting options for the column cells.
  */
-class FormatNumberColumn(
+internal class FormatNumberColumn(
     header: String = "",
     content: Array<Double>,
     var columnFormatOptions: CellFormatOptions

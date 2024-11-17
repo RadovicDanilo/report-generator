@@ -324,7 +324,7 @@ class FormatFileBuilder(private val filename: String) : FileBuilder(filename) {
      *
      * @return A new [FormatFile] instance.
      */
-    override fun build(): File {
+  override fun build(): File {
         return FormatFile(
             filename,
             title,

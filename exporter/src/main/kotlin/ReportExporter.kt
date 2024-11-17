@@ -1,6 +1,7 @@
 package src.main.kotlin
 
 import src.main.kotlin.file.File
+import src.main.kotlin.file.FileBuilder
 
 /**
  * An abstract class for a non-formatted report exporter.
@@ -24,5 +25,5 @@ abstract class ReportExporter {
      *
      * @param file The file that will be exported.
      */
-    abstract fun export(file: File)
+    abstract fun export(file: FileBuilder)
 }

@@ -414,7 +414,7 @@ open class FileBuilder(
      *
      * @return A new [File] instance.
      */
-    open fun build(): File {
+   internal open fun build(): File {
         return File(filename, title, columns, includeRowNumbers, summary)
     }
 
