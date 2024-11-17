@@ -26,7 +26,6 @@ class CsvExporterTest {
     @Test
     fun testExportWithRowNumbers() {
         val file = createTestFile(includeRowNumbers = true, file_name = "test_report_nums")
-
         val exporter = CsvExporter()
         exporter.export(file)
         assertNotNull(file)
