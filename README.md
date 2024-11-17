@@ -4,20 +4,24 @@
 
 jdbc:mysql://127.0.0.1:3306/report?user=root"&"password=
 
-CREATE TABLE employees (
+CREATE TABLE zaposleni (
 id INT AUTO_INCREMENT PRIMARY KEY,
-first_name VARCHAR(50),
-last_name VARCHAR(50),
-age INT,
-salary DECIMAL(10, 2),
-city VARCHAR(50)
+ime VARCHAR(50),
+prezime VARCHAR(50),
+godine INT,
+plata DECIMAL(10, 2),
+grad VARCHAR(50)
 );
 
-INSERT INTO employees (first_name, last_name, age, salary, city) VALUES
-('John', 'Doe', 30, 50000.00, 'New York'),
-('Jane', 'Smith', 28, 55000.00, 'Los Angeles'),
-('Michael', 'Johnson', 40, 70000.00, 'Chicago'),
-('Emily', 'Davis', 35, 62000.00, 'Houston'),
-('David', 'Wilson', 45, 75000.00, 'Phoenix'),
-('Sarah', 'Martinez', 32, 58000.00, 'San Diego');
+INSERT INTO zaposleni (ime, prezime, godine, plata, grad) VALUES
+('Marko', 'Petrović', 30, 50000.00, 'Beograd'),
+('Jelena', 'Jovanović', 28, 55000.00, 'Novi Sad'),
+('Nikola', 'Nikolić', 40, 70000.00, 'Niš'),
+('Milica', 'Stanković', 35, 62000.00, 'Kragujevac'),
+('Dejan', 'Mitrović', 45, 75000.00, 'Subotica'),
+('Ana', 'Kostić', 32, 58000.00, 'Zrenjanin'),
+('Stefan', 'Lazić', 29, 53000.00, 'Čačak'),
+('Ivana', 'Savić', 27, 52000.00, 'Šabac'),
+('Lazar', 'Popović', 37, 68000.00, 'Kruševac'),
+('Dragana', 'Vukić', 33, 60000.00, 'Pirot');
  
